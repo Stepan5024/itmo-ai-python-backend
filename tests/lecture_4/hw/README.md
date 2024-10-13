@@ -13,6 +13,13 @@ poetry run pytest \
     ./tests/lecture_4/hw
 ```
 
+```shell
+poetry run pytest -vv --cov=lecture_4/demo_service ./tests/lecture_4/hw
+```
+
+```shell
+poetry run pytest --cov=lecture_4/demo_service --cov-report=term-missing ./tests/lecture_4/hw
+```
 Для получения 3-х баллов, помимо 100% покрытия нужно так же реализовать скрипт
 для нагрузочного тестирования приложения (инструмент можно выбирать на
 усмотрение). Длительность не менее 10 минут (а лучше больше), требуется
