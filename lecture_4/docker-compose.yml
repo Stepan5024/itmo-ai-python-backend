@@ -8,6 +8,8 @@ services:
     restart: always
     ports:
       - 8000:8000
+    networks:
+      - my-network
 
   grafana:
     image: grafana/grafana:latest
@@ -16,6 +18,8 @@ services:
     restart: always
     volumes:
       - ./.cache/grafana:/var/lib/grafana
+    networks:
+      - my-network
 
   prometheus:
     image: prom/prometheus
@@ -28,4 +32,10 @@ services:
       - "--web.console.templates=/usr/share/prometheus/consoles"
     ports:
       - 9090:9090
+    networks:
+      - my-network
     restart: always
+
+networks:
+  my-network:
+    driver: bridge

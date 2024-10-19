@@ -34,6 +34,7 @@ async def get_user(
     id: Annotated[int | None, Query()] = None,
     username: Annotated[str | None, Query()] = None,
 ) -> UserResponse:
+    global entity
     if id is not None and username is not None:
         raise ValueError("both id and username are provided")
 
@@ -53,7 +54,12 @@ async def get_user(
 
 @router.post("/user-promote")
 async def promote_user(
-    id: Annotated[int, Query()], _: AdminDep, user_service: UserServiceDep
+        id: Annotated[int, Query()], _: AdminDep, user_service: UserServiceDep
 ):
+    # Проверка на существование пользователя
+    user = user_service.get_by_id(id)
+    if user is None:
+        raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail="user not found")
+
     user_service.grant_admin(id)
     return PlainTextResponse()
